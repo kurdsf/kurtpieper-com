@@ -1,0 +1,87 @@
+:root {
+  --text: #222;
+  --muted: #6b6b6b;
+  --link: #1a4f8a;
+  --rule: #ddd;
+  --bg: #fdfdfb;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --text: #e6e4df;
+    --muted: #9a9a94;
+    --link: #9cbfe8;
+    --rule: #333;
+    --bg: #151513;
+  }
+}
+html { color-scheme: light dark; }
+body {
+  font-family: Charter, Georgia, "Times New Roman", serif;
+  max-width: 36rem;
+  margin: 4.5rem auto;
+  padding: 0 1.25rem;
+  line-height: 1.65;
+  font-size: 1.06rem;
+  color: var(--text);
+  background: var(--bg);
+}
+a { color: var(--link); }
+h1 {
+  font-size: 1.5rem;
+  font-weight: normal;
+  letter-spacing: 0.01em;
+  margin: 0 0 1.75rem 0;
+}
+.home {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.home a { color: var(--muted); text-decoration: none; }
+.home a:hover { color: var(--link); }
+.home + h1 { margin-top: 0.5rem; margin-bottom: 1.25rem; }
+.intro {
+  font-style: italic;
+  color: var(--muted);
+  margin-bottom: 2rem;
+}
+.portrait {
+  float: right;
+  width: 8.5rem;
+  height: auto;
+  margin: 0.2rem 0 0.75rem 1.25rem;
+  border-radius: 4px;
+}
+@media (max-width: 30rem) {
+  .portrait { width: 6.5rem; }
+}
+ul { padding-left: 1.25rem; }
+li { margin-bottom: 1.25rem; }
+li li { margin-bottom: 0.25rem; }
+ul ul { margin: 0.4rem 0 0.6rem; }
+blockquote {
+  margin: 0 0 0.5rem 0;
+  padding-left: 0.9rem;
+  border-left: 2px solid var(--rule);
+  font-style: italic;
+}
+sup { line-height: 0; }
+sup a, .fnback { text-decoration: none; }
+.footnotes {
+  margin-top: 3.5rem;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+.footnotes hr {
+  border: none;
+  border-top: 1px solid var(--rule);
+  width: 8rem;
+  margin: 0 0 1.25rem 0;
+}
+.footnotes ol { padding-left: 1.25rem; }
+.footnotes li p { margin: 0.4rem 0 0 0; }
+.entry { margin: 0 0 2rem 0; }
+.entry p { margin: 0 0 0.35rem 0; }
+.entry .src { font-weight: 600; }
+.entry .venue { font-weight: normal; color: var(--muted); font-size: 0.92rem; }
+blockquote ul { margin: 0; padding-left: 1.1rem; }
+blockquote li { margin-bottom: 0.6rem; font-style: normal; }
