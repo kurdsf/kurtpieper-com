@@ -16,11 +16,6 @@
 which I hope will be helpful. All polished writing is on <a href="/lw/">LW</a>.</p>
 
 <div class="entry">
-  <p class="src"><a href="https://www.lesswrong.com/posts/NazprRfWJ4qkwcSro/nla-explanations-can-be-shortened-without-harming">NLA explanations can be shortened without harming reconstruction</a></p>
-  <p>Asking NLA to keep it short might also be another use selection force.</p>
-</div>
-
-<div class="entry">
   <p class="src"><a href="https://www.lesswrong.com/posts/QQQAcKuWK6k98FivY/can-activation-verbalizers-surface-an-internal-chain-of-1">Can activation verbalizers surface an internal chain of thought?</a></p>
   <p>A bunch of negative results, basically. Loss not good, Claude can few-shot
   comparable explanations. Explanations are meh, and more speculatively,
@@ -31,6 +26,16 @@ which I hope will be helpful. All polished writing is on <a href="/lw/">LW</a>.<
   thought. How the hell would we even know? It must be said that the
   math problems are hard though, and NLA&rsquo;s are bad with the numbers in
   general.</p>
+</div>
+
+<div class="entry">
+  <p class="src"><a href="https://www.lesswrong.com/posts/NazprRfWJ4qkwcSro/nla-explanations-can-be-shortened-without-harming">NLA explanations can be shortened without harming reconstruction</a></p>
+  <p>The bag of NLA-selection forces contains the warm-start (Claude&rsquo;s
+  guess as to what the model might think), reconstruction loss and the KL penalty
+  of GRPO (which might improve legibility via &ldquo;keep it close to
+  pretraining&rdquo;), parsimony is a nice addition, yet it remains to be
+  demonstrated that the explanations are not just <em>shorter</em>, but also
+  <em>better</em>.</p>
 </div>
 
 <hr class="sep">
@@ -44,7 +49,9 @@ which I hope will be helpful. All polished writing is on <a href="/lw/">LW</a>.<
   <a href="https://arxiv.org/pdf/2504.10374">resample</a> different models, i.e.
   make them talk in a bunch of different distributions (i.e. talk like a pirate,
   talk in French &hellip;), and just hope they&rsquo;re not all scheming in the
-  same way.</p>
+  same way. Unfortunately, since this is likely pretty capabilities-costly,
+  compared to e.g. monitors, Pirate resampling may never see the light of day at
+  frontier labs.</p>
 </div>
 
 <div class="entry">
