@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>LessWrong output, April&ndash;July 2026 &mdash; Kurt Pieper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Weekly LessWrong words written, April to July 2026, with the GCP workshop and HAAISS marked.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+<style>
+  :root {
+    --s1: #2a78d6; --s2: #eb6834;
+    --grid: #e8e7e1; --axis: #c6c5be;
+    --flag: #6b6b6b; --flag-soft: rgba(107,107,107,.07);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --s1: #3987e5; --s2: #d95926;
+      --grid: #2b2b27; --axis: #3d3d38;
+      --flag: #9a9a94; --flag-soft: rgba(154,154,148,.10);
+    }
+  }
+  .figure {
+    width: min(52rem, 92vw);
+    margin: 0 0 1rem;
+    margin-left: 50%;
+    transform: translateX(-50%);
+  }
+  .plot { overflow-x: auto; }
+  svg.chart {
+    display: block; min-width: 40rem; width: 100%; height: auto;
+    font-family: Charter, Georgia, "Times New Roman", serif;
+  }
+  svg.chart .wk { cursor: default; }
+  svg.chart .wk:hover rect[fill="transparent"] { fill: var(--flag-soft); }
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 1.1rem; align-items: center;
+    font-size: .85rem; color: var(--muted); margin: .35rem 0 0 3.38rem;
+  }
+  .legend span { display: inline-flex; align-items: center; gap: .4rem; }
+  .legend i { width: .7rem; height: .7rem; border-radius: 2px; flex: none; }
+  .legend i.evt { height: 0; width: .9rem; border-radius: 0; border-top: 2px dashed var(--flag); }
+  details { margin: 1.5rem 0 0; font-size: .95rem; }
+  summary { cursor: pointer; color: var(--muted); }
+  table { border-collapse: collapse; margin: .8rem 0 0; font-size: .9rem; }
+  th, td { text-align: left; padding: .3rem .9rem .3rem 0; border-bottom: 1px solid var(--rule); }
+  th { font-weight: 600; color: var(--muted); font-size: .82rem; }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  .caption { font-size: .9rem; color: var(--muted); }
+</style>
+</head>
+<body>
+
+<p class="home"><a href="/">Kurt Pieper</a></p>
+<h1>LessWrong output, April&ndash;July 2026</h1>
+
+<p class="intro">Words I wrote on LessWrong each week, against the two programmes I attended.</p>
+
+<div class="figure">
+  <div class="plot">
+<svg class="chart" viewBox="0 0 880 400" role="img" aria-labelledby="chart-title chart-desc">
+<title id="chart-title">Weekly LessWrong words written, 30 March to 2 August 2026</title>
+<desc id="chart-desc">Stacked bars of comment words and post words per week, with the GCP workshop (June, exact days unknown) and HAAISS (13&#8211;16 July) marked. Output is near zero through April and May, rises after GCP, and peaks at 2,014 words in the week of 20 July, the week after HAAISS.</desc>
+<defs><pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="7" height="7" fill="var(--flag)" fill-opacity=".05"/><line x1="0" y1="0" x2="0" y2="7" stroke="var(--flag)" stroke-width="1.4" stroke-opacity=".22"/></pattern></defs>
+<g><rect x="458" y="26" width="192.38" height="318" fill="url(#hatch)"/>
+<line x1="458" y1="26" x2="458" y2="344" stroke="var(--flag)" stroke-width="1.5" stroke-dasharray="4 3" stroke-opacity=".75"/>
+<line x1="650.38" y1="26" x2="650.38" y2="344" stroke="var(--flag)" stroke-width="1.5" stroke-dasharray="4 3" stroke-opacity=".75"/>
+<text x="554.19" y="15" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--flag)" letter-spacing=".05em">GCP</text>
+<text x="554.19" y="378" text-anchor="middle" font-size="10.5" fill="var(--muted)">June &#8212; exact days unknown</text></g>
+<g><rect x="727.33" y="26" width="25.65" height="318" fill="var(--flag-soft)"/>
+<line x1="727.33" y1="26" x2="727.33" y2="344" stroke="var(--flag)" stroke-width="1.5" stroke-dasharray="5 4" stroke-opacity=".75"/>
+<line x1="752.98" y1="26" x2="752.98" y2="344" stroke="var(--flag)" stroke-width="1.5" stroke-dasharray="5 4" stroke-opacity=".75"/>
+<text x="740.16" y="15" text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--flag)" letter-spacing=".05em">HAAISS</text>
+<text x="740.16" y="378" text-anchor="middle" font-size="10.5" fill="var(--muted)">13&#8211;16 Jul, Prague</text></g>
+<line x1="54" y1="344" x2="862" y2="344" stroke="var(--axis)" stroke-width="1.5"/>
+<text x="43" y="348" text-anchor="end" font-size="11" fill="var(--muted)" style="font-variant-numeric:tabular-nums">0</text>
+<line x1="54" y1="268.29" x2="862" y2="268.29" stroke="var(--grid)" stroke-width="1"/>
+<text x="43" y="272.29" text-anchor="end" font-size="11" fill="var(--muted)" style="font-variant-numeric:tabular-nums">500</text>
+<line x1="54" y1="192.57" x2="862" y2="192.57" stroke="var(--grid)" stroke-width="1"/>
+<text x="43" y="196.57" text-anchor="end" font-size="11" fill="var(--muted)" style="font-variant-numeric:tabular-nums">1,000</text>
+<line x1="54" y1="116.86" x2="862" y2="116.86" stroke="var(--grid)" stroke-width="1"/>
+<text x="43" y="120.86" text-anchor="end" font-size="11" fill="var(--muted)" style="font-variant-numeric:tabular-nums">1,500</text>
+<line x1="54" y1="41.14" x2="862" y2="41.14" stroke="var(--grid)" stroke-width="1"/>
+<text x="43" y="45.14" text-anchor="end" font-size="11" fill="var(--muted)" style="font-variant-numeric:tabular-nums">2,000</text>
+<text x="14" y="185" font-size="10.5" fill="var(--muted)" text-anchor="middle" letter-spacing=".09em" transform="rotate(-90 14 185)">WORDS PER WEEK</text>
+<line x1="66.83" y1="344" x2="66.83" y2="350" stroke="var(--axis)" stroke-width="1"/>
+<text x="66.83" y="364" text-anchor="middle" font-size="11.5" fill="var(--text)">Apr</text>
+<line x1="259.21" y1="344" x2="259.21" y2="350" stroke="var(--axis)" stroke-width="1"/>
+<text x="259.21" y="364" text-anchor="middle" font-size="11.5" fill="var(--text)">May</text>
+<line x1="458" y1="344" x2="458" y2="350" stroke="var(--axis)" stroke-width="1"/>
+<text x="458" y="364" text-anchor="middle" font-size="11.5" fill="var(--text)">Jun</text>
+<line x1="650.38" y1="344" x2="650.38" y2="350" stroke="var(--axis)" stroke-width="1"/>
+<text x="650.38" y="364" text-anchor="middle" font-size="11.5" fill="var(--text)">Jul</text>
+<line x1="849.17" y1="344" x2="849.17" y2="350" stroke="var(--axis)" stroke-width="1"/>
+<text x="849.17" y="364" text-anchor="middle" font-size="11.5" fill="var(--text)">Aug</text>
+<g class="wk"><title>Week of 30 Mar: 39 words</title>
+<path d="M63.94,344V342.09a4,4 0 0 1 4,-4h17a4,4 0 0 1 4,4V344Z" fill="var(--s1)"/>
+<rect x="58.94" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 6 Apr: 451 words</title>
+<path d="M108.83,344V279.71a4,4 0 0 1 4,-4h17a4,4 0 0 1 4,4V344Z" fill="var(--s1)"/>
+<rect x="103.83" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 13 Apr: 0 words</title>
+<rect x="148.72" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 20 Apr: 0 words</title>
+<rect x="193.61" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 27 Apr: 51 words</title>
+<path d="M243.5,344V340.28a4,4 0 0 1 4,-4h17a4,4 0 0 1 4,4V344Z" fill="var(--s1)"/>
+<rect x="238.5" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 4 May: 0 words</title>
+<rect x="283.39" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 11 May: 0 words</title>
+<rect x="328.28" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 18 May: 14 words</title>
+<path d="M378.17,344V344a2.12,2.12 0 0 1 2.12,-2.12h20.76a2.12,2.12 0 0 1 2.12,2.12V344Z" fill="var(--s1)"/>
+<rect x="373.17" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 25 May: 0 words</title>
+<rect x="418.06" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 1 Jun: 0 words</title>
+<rect x="462.94" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 8 Jun: 0 words</title>
+<rect x="507.83" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 15 Jun: 0 words</title>
+<rect x="552.72" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 22 Jun: 416 words</title>
+<path d="M602.61,344V285.01a4,4 0 0 1 4,-4h17a4,4 0 0 1 4,4V344Z" fill="var(--s1)"/>
+<rect x="597.61" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 29 Jun: 180 words</title>
+<path d="M647.5,344V320.74a4,4 0 0 1 4,-4h17a4,4 0 0 1 4,4V344Z" fill="var(--s1)"/>
+<rect x="642.5" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 6 Jul: 186 words</title>
+<path d="M692.39,344V319.83a4,4 0 0 1 4,-4h17a4,4 0 0 1 4,4V344Z" fill="var(--s1)"/>
+<rect x="687.39" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 13 Jul: 118 words</title>
+<path d="M737.28,344V330.13a4,4 0 0 1 4,-4h17a4,4 0 0 1 4,4V344Z" fill="var(--s1)"/>
+<rect x="732.28" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 20 Jul: 2,014 words</title>
+<rect x="782.17" y="213.32" width="25" height="130.68" fill="var(--s1)"/>
+<path d="M782.17,211.32V43.02a4,4 0 0 1 4,-4h17a4,4 0 0 1 4,4V211.32Z" fill="var(--s2)"/>
+<rect x="777.17" y="26" width="35" height="318" fill="transparent"/></g>
+<g class="wk"><title>Week of 27 Jul: 154 words</title>
+<path d="M827.06,344V324.68a4,4 0 0 1 4,-4h17a4,4 0 0 1 4,4V344Z" fill="var(--s1)"/>
+<rect x="822.06" y="26" width="35" height="318" fill="transparent"/></g>
+<text x="794.67" y="29.02" text-anchor="middle" font-size="12" font-weight="600" fill="var(--text)" style="font-variant-numeric:tabular-nums">2,014</text>
+</svg>
+  </div>
+  <p class="legend">
+    <span><i style="background:var(--s1)"></i>Comment words</span>
+    <span><i style="background:var(--s2)"></i>Post words</span>
+    <span><i class="evt"></i>Programme attended</span>
+  </p>
+</div>
+
+<p>Two things the shape is doing. Output is <em>bursty</em> &mdash; 19 active days out of
+117 &mdash; and it climbs after both programmes: 555 comment words across April and May,
+1,917 across June and July.</p>
+
+<p>The obvious causal reading is weaker than it looks. The 2,014-word peak is 57&nbsp;per cent
+one artefact, an essay drafted over several weeks and merely <em>published</em> that Monday;
+counting comments alone, the fortnight after HAAISS runs 3.1&times; the fortnight before, and
+widening to three weeks drops that to 1.5&times;. The account is also only four months old, so
+the trend is confounded with simply getting started. Two events is not a sample you can fit a
+line through.</p>
+
+<p class="caption">Comment and post word counts from the LessWrong GraphQL API, fetched
+1&nbsp;August 2026; weeks begin Monday. HAAISS 2026 ran 13&ndash;16 July in Prague. The GCP
+workshop is placed across June because I have confirmation that I attended but no record of
+which days, so its band marks the month rather than the event.</p>
+
+<details>
+  <summary>Weekly figures</summary>
+  <table>
+    <thead><tr><th>Week beginning</th><th class="n">Comments</th><th class="n">Posts</th><th class="n">Total</th></tr></thead>
+    <tbody>
+      <tr><td>30 Mar</td><td class="n">39</td><td class="n">&#8212;</td><td class="n">39</td></tr>
+      <tr><td>6 Apr</td><td class="n">451</td><td class="n">&#8212;</td><td class="n">451</td></tr>
+      <tr><td>13 Apr</td><td class="n">0</td><td class="n">&#8212;</td><td class="n">0</td></tr>
+      <tr><td>20 Apr</td><td class="n">0</td><td class="n">&#8212;</td><td class="n">0</td></tr>
+      <tr><td>27 Apr</td><td class="n">51</td><td class="n">&#8212;</td><td class="n">51</td></tr>
+      <tr><td>4 May</td><td class="n">0</td><td class="n">&#8212;</td><td class="n">0</td></tr>
+      <tr><td>11 May</td><td class="n">0</td><td class="n">&#8212;</td><td class="n">0</td></tr>
+      <tr><td>18 May</td><td class="n">14</td><td class="n">&#8212;</td><td class="n">14</td></tr>
+      <tr><td>25 May</td><td class="n">0</td><td class="n">&#8212;</td><td class="n">0</td></tr>
+      <tr><td>1 Jun</td><td class="n">0</td><td class="n">&#8212;</td><td class="n">0</td></tr>
+      <tr><td>8 Jun</td><td class="n">0</td><td class="n">&#8212;</td><td class="n">0</td></tr>
+      <tr><td>15 Jun</td><td class="n">0</td><td class="n">&#8212;</td><td class="n">0</td></tr>
+      <tr><td>22 Jun</td><td class="n">416</td><td class="n">&#8212;</td><td class="n">416</td></tr>
+      <tr><td>29 Jun</td><td class="n">180</td><td class="n">&#8212;</td><td class="n">180</td></tr>
+      <tr><td>6 Jul</td><td class="n">186</td><td class="n">&#8212;</td><td class="n">186</td></tr>
+      <tr><td>13 Jul</td><td class="n">118</td><td class="n">&#8212;</td><td class="n">118</td></tr>
+      <tr><td>20 Jul</td><td class="n">863</td><td class="n">1151</td><td class="n">2014</td></tr>
+      <tr><td>27 Jul</td><td class="n">154</td><td class="n">&#8212;</td><td class="n">154</td></tr>
+    </tbody>
+  </table>
+</details>
+
+</body>
+</html>
