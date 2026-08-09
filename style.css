@@ -29,7 +29,13 @@ body {
   text-rendering: optimizeLegibility;
 }
 
-a { color: var(--link); }
+a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--muted);
+  text-underline-offset: 2px;
+}
+a:hover { text-decoration-color: var(--text); }
 
 h1 {
   font-size: 1.5rem;
@@ -71,7 +77,6 @@ p { margin: 0 0 1rem 0; }
 /* unpublished drafts, quietly highlighted at the top of /recommendations */
 .drafts {
   border: 1px solid var(--rule);
-  border-radius: 3px;
   padding: 1rem 1.15rem 0.1rem;
   margin: -1rem 0 2.75rem;
 }
