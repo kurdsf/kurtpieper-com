@@ -56,7 +56,15 @@ $C = \sum_{i = 1}^{n} L_C^{-1}(l^{\text{probe}}_i)$
 where $L^{-1}$ is the inverse of $L(C) = GC^{-\gamma}$ from the Chinchilla paper.
 This may overestimate compute costs, since its easier to know <i>the loss</i> compared to the
 <i>token producing the loss</i>.</p>
-<p>Result #1: Trained on Pythia, disappointing result ($r = 0.3$, which is just an artifact of close text being correlated), likely just cheaped out on compute too much since this is worse than we would expect from Future Lens.</p>
+<p>Theoretically, the exact target chosen might be suboptimal: We need to approximate the given element
+of the unembedding matrix log-softmaxxed, which is plausibly not cheaply linearly approximated, since
+its (a) a huge matrix, much higher rank than <code>[d_model, vocab_size]</code> compared to a naive
+<code>[d_model, 1]</code> (b) the big vocab_size may be crucial for correct normalization. Perhaps we can approximate
+as follows (i) a sort of logit-lens of a middle (FutureLens uses middle layers) vector with LoRA dimension one.
+I've tried avoiding stuff like this, since the computation power is too sketchy, but both of my initial experiment make it seem likely
+that this is needed:</p>
+<blockquote><p>Result #1: Trained on Pythia, disappointing result ($r = 0.3$, which is just an artifact of close text being correlated), likely just cheaped out on compute too much since this is worse than we would expect from Future Lens.</p></blockquote>
+<p>We can, by the Chinchilla argument above, subtract the computational costs from this, to decompose "how much is LoRA" and "how much must have been in the model".</p>
 </div>
 </body>
 </html>
