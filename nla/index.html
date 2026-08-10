@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Weak-To-Strong Warm-Starting NLAs: Preliminary Evidence &mdash; Kurt Pieper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Draft: what small training runs suggest about scaling NLA's.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<p class="home"><a href="/">&larr; Kurt Pieper</a></p>
+<h1>Weak-To-Strong Warm-Starting NLAs: Preliminary Evidence</h1>
+<p class="intro">A draft, July 2026. Comments welcome, via
+<a href="mailto:kurt.h.pieper@gmail.com">mail</a> or
+<a href="https://www.admonymous.co/kurt-pieper">anonymously</a>.</p>
+<div class="post">
+<p><i><em>(if you are unfamiliar with NLA's, read the </em></i><a href="https://www.lesswrong.com/posts/4nZwNPyfoadAxPH98/natural-language-autoencoders-are-summarizers-but-do-they#Quick_NLA_primer" rel="noreferrer"><i><em>quick primer</em></i></a><i><em>)</em></i></p><h3><i><em>Problems with NLA's</em></i></h3><p><i><em>(this section exists mainly to clarify a set of problems with NLA's, to then introduce how these concerns might be improved)</em></i></p><p><span>There are three shaping forces of NLA's: </span></p><ul><li value="1"><span>The initial warm-start supervised learning </span></li><li value="2"><span>The autoencoder reconstruction loss </span></li><li value="3"><span>The KL penalty of GRPO, keeping the steps within the warm-start distribution. (small)</span></li></ul><p><span>All of these forces can be seen as proxies for "a human explanation of this vector", and in the worst case, will just become Goodharted with sufficient optimization pressure.</span></p><p><span>However, one might object that, similarly to RLHF, there is a large "solution space" that kind of looks okay, i.e. today's LLMs are fairly nice most of the time even in the absence of any sort of extremely sophisticated post-training procedure. Likewise, NLA's might one day be a tool that, you know, explains the activations of LLMs fairly well,</span><span class="footnote-reference" data-footnote-reference="" data-footnote-id="g5k73027vnd" data-footnote-index="1" role="doc-noteref" id="fnrefg5k73027vnd"><sup><a href="#fng5k73027vnd">[1]</a></sup></span><span> with some weird edges.</span><span class="footnote-reference" data-footnote-reference="" data-footnote-id="ik14dkclsk8" data-footnote-index="2" role="doc-noteref" id="fnrefik14dkclsk8"><sup><a href="#fnik14dkclsk8">[2]</a></sup></span></p><ul><li value="1"><span>By the same token, I am also more optimistic than </span><a href="https://turntrout.com/natural-language-autoencoder-robustness" rel="noreferrer"><span>Zhou &amp; TurnTrout</span></a><span>, of course it is important to note that NLA's can be made to produce implausible explanations quite easily, yet the same plausibly holds for CoT, i.e. you can disturb the legibility quite easily. </span></li><li value="2"><span>It must still be noted here that RL did not repair the implausiblity significantly. </span></li></ul><p><span>(Because today's open-weight NLA's don't seem that useful yet, we want to estimate how useful throwing more GPU's / RL on them might be. Three sources of evidence: </span></p><ul><li value="1"><span>Most of Anthropic's benchmarks of NLA performance improve with RL training. However, there are notable exceptions.</span></li><li value="2"><span>How training Qwen (</span><a href="https://www.lesswrong.com/posts/NazprRfWJ4qkwcSro/nla-explanations-can-be-shortened-without-harming" rel="noreferrer"><span>here</span></a><span>) improves some set of NLA evaluations. </span></li><li value="3"><span>If </span><i><em>across-problem variance</em></i><span> in reconstruction loss tracks holistic evaluations, which is then extrapolated to </span><i><em>across-training variance</em></i><span> in reconstruction.)</span></li></ul><p><span>It is claimed that a broad set of holistic evaluations of NLA's improve with RL training. </span></p><figure style="width:100%" class="image image_resized"><img src="/nla/fig1.png" alt="image.png"></figure><p><br></p><p><span>In general, it has to be noted though "evaluating NLA's" is a pretty hard problem, we have to generalize from simple cases where we know "now it ought to be thinking XYZ" to "all of LLM thought". </span></p><p><span>A useful canary here is: Assuming the minds of LLM's are fairly alien, has interp extracted an abstraction that is just slightly different from a human one? Something that is just way easier to implement in transformer circuits compared to biological neurons?</span><span class="footnote-reference" data-footnote-reference="" data-footnote-id="32pmli4j1me" data-footnote-index="3" role="doc-noteref" id="fnref32pmli4j1me"><sup><a href="#fn32pmli4j1me">[3]</a></sup></span></p><p><span>That is, the NLA's should be like "to properly explain this, I'll need to define what an </span><i><em>ajwkodwklwekqs</em></i><span> is, otherwise you wouldn't get it"</span></p><p><span>Furthermore, warm-start is needed, i.e. pure RL produces illegible explanations with low loss, which is evidence that the selection force of RL is pointing in the wrong direction, at least when starting from a random point.</span></p><p><span>oakhu &amp; greenblatt showed that out of the three forces, it is plausible warm-start is the strongest, with the RL just producing a few bits of optimization pressure (i.e. Sonnet best-of-N confabulates better thoughts)</span></p><h3><span>What can we do about it?</span></h3><ul><li value="1"><span>Some cases were we might know that LLM's are thinking XYZ:</span><ul><li value="1"><span>Give them the output of an OEIS sequence (that they can predict, and cannot have memorized), and see if the NLA gives back the generating function. </span><ul><li value="1"><b><strong>In general, if we have a sequence of tokens </strong></b><span class="math-tex"><style>
+
+mjx-math {
+  display: inline-block;
+  text-align: left;
+  line-height: 0;
+  text-indent: 0;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 100%;
+  font-size-adjust: none;
+  letter-spacing: normal;
+  border-collapse: collapse;
+  word-wrap: normal;
+  word-spacing: normal;
+  white-space: nowrap;
+  direction: ltr;
+  padding: 1px 0;
+}
+
+mjx-container[jax="CHTML"][display="true"] {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+}
+
+mjx-container[jax="CHTML"][display="true"][width="full"] {
+  display: flex;
+}
+
+mjx-container[jax="CHTML"][display="true"] mjx-math {
+  padding: 0;
+}
+
+mjx-container[jax="CHTML"][justify="left"] {
+  text-align: left;
+}
+
+mjx-container[jax="CHTML"][justify="right"] {
+  text-align: right;
+}
+
+mjx-mi {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c {
+  display: inline-block;
+}
+
+mjx-utext {
+  display: inline-block;
+  padding: .75em 0 .2em 0;
+}
+
+mjx-mo {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-stretchy-h {
+  display: inline-table;
+  width: 100%;
+}
+
+mjx-stretchy-h > * {
+  display: table-cell;
+  width: 0;
+}
+
+mjx-stretchy-h > * > mjx-c {
+  display: inline-block;
+  transform: scalex(1.0000001);
+}
+
+mjx-stretchy-h > * > mjx-c::before {
+  display: inline-block;
+  width: initial;
+}
+
+mjx-stretchy-h > mjx-ext {
+  /* IE */ overflow: hidden;
+  /* others */ overflow: clip visible;
+  width: 100%;
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c::before {
+  transform: scalex(500);
+}
+
+mjx-stretchy-h > mjx-ext > mjx-c {
+  width: 0;
+}
+
+mjx-stretchy-h > mjx-beg > mjx-c {
+  margin-right: -.1em;
+}
+
+mjx-stretchy-h > mjx-end > mjx-c {
+  margin-left: -.1em;
+}
+
+mjx-stretchy-v {
+  display: inline-block;
+}
+
+mjx-stretchy-v > * {
+  display: block;
+}
+
+mjx-stretchy-v > mjx-beg {
+  height: 0;
+}
+
+mjx-stretchy-v > mjx-end > mjx-c {
+  display: block;
+}
+
+mjx-stretchy-v > * > mjx-c {
+  transform: scaley(1.0000001);
+  transform-origin: left center;
+  overflow: hidden;
+}
+
+mjx-stretchy-v > mjx-ext {
+  display: block;
+  height: 100%;
+  box-sizing: border-box;
+  border: 0px solid transparent;
+  /* IE */ overflow: hidden;
+  /* others */ overflow: visible clip;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c::before {
+  width: initial;
+  box-sizing: border-box;
+}
+
+mjx-stretchy-v > mjx-ext > mjx-c {
+  transform: scaleY(500) translateY(.075em);
+  overflow: visible;
+}
+
+mjx-mark {
+  display: inline-block;
+  height: 0px;
+}
+
+mjx-mn {
+  display: inline-block;
+  text-align: left;
+}
+
+mjx-c.mjx-c1D453.TEX-I::before {
+  padding: 0.705em 0.55em 0.205em 0;
+  content: "f";
+}
+
+mjx-c.mjx-c28::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: "(";
+}
+
+mjx-c.mjx-c31::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "1";
+}
+
+mjx-c.mjx-c29::before {
+  padding: 0.75em 0.389em 0.25em 0;
+  content: ")";
+}
+
+mjx-c.mjx-c2C::before {
+  padding: 0.121em 0.278em 0.194em 0;
+  content: ",";
+}
+
+mjx-c.mjx-c32::before {
+  padding: 0.666em 0.5em 0 0;
+  content: "2";
+}
+
+mjx-c.mjx-c2E::before {
+  padding: 0.12em 0.278em 0 0;
+  content: ".";
+}
+
+mjx-c.mjx-c1D441.TEX-I::before {
+  padding: 0.683em 0.888em 0 0;
+  content: "N";
+}
+
+mjx-c.mjx-c1D459.TEX-I::before {
+  padding: 0.694em 0.298em 0.011em 0;
+  content: "l";
+}
+
+mjx-c.mjx-c1D45C.TEX-I::before {
+  padding: 0.441em 0.485em 0.011em 0;
+  content: "o";
+}
+
+mjx-c.mjx-c1D454.TEX-I::before {
+  padding: 0.442em 0.477em 0.205em 0;
+  content: "g";
+}
+
+mjx-c.mjx-c1D45B.TEX-I::before {
+  padding: 0.442em 0.6em 0.011em 0;
+  content: "n";
+}
+
+
+
+
+
+
+
+
+mjx-container[jax="CHTML"] {
+  line-height: 0;
+}
+
+mjx-container [space="1"] {
+  margin-left: .111em;
+}
+
+mjx-container [space="2"] {
+  margin-left: .167em;
+}
+
+mjx-container [space="3"] {
+  margin-left: .222em;
+}
+
+mjx-container [space="4"] {
+  margin-left: .278em;
+}
+
+mjx-container [space="5"] {
+  margin-left: .333em;
+}
+
+mjx-container [rspace="1"] {
+  margin-right: .111em;
+}
+
+mjx-container [rspace="2"] {
+  margin-right: .167em;
+}
+
+mjx-container [rspace="3"] {
+  margin-right: .222em;
+}
+
+mjx-container [rspace="4"] {
+  margin-right: .278em;
+}
+
+mjx-container [rspace="5"] {
+  margin-right: .333em;
+}
+
+mjx-container [size="s"] {
+  font-size: 70.7%;
+}
+
+mjx-container [size="ss"] {
+  font-size: 50%;
+}
+
+mjx-container [size="Tn"] {
+  font-size: 60%;
+}
+
+mjx-container [size="sm"] {
+  font-size: 85%;
+}
+
+mjx-container [size="lg"] {
+  font-size: 120%;
+}
+
+mjx-container [size="Lg"] {
+  font-size: 144%;
+}
+
+mjx-container [size="LG"] {
+  font-size: 173%;
+}
+
+mjx-container [size="hg"] {
+  font-size: 207%;
+}
+
+mjx-container [size="HG"] {
+  font-size: 249%;
+}
+
+mjx-container [width="full"] {
+  width: 100%;
+}
+
+mjx-box {
+  display: inline-block;
+}
+
+mjx-block {
+  display: block;
+}
+
+mjx-itable {
+  display: inline-table;
+}
+
+mjx-row {
+  display: table-row;
+}
+
+mjx-row > * {
+  display: table-cell;
+}
+
+mjx-mtext {
+  display: inline-block;
+}
+
+mjx-mstyle {
+  display: inline-block;
+}
+
+mjx-merror {
+  display: inline-block;
+  color: red;
+  background-color: yellow;
+}
+
+mjx-mphantom {
+  visibility: hidden;
+}
+
+_::-webkit-full-page-media, _:future, :root mjx-container {
+  will-change: opacity;
+}
+
+mjx-c::before {
+  display: block;
+  width: 0;
+}
+
+.MJX-TEX {
+  font-family: MJXZERO, MJXTEX;
+}
+
+.TEX-B {
+  font-family: MJXZERO, MJXTEX-B;
+}
+
+.TEX-I {
+  font-family: MJXZERO, MJXTEX-I;
+}
+
+.TEX-MI {
+  font-family: MJXZERO, MJXTEX-MI;
+}
+
+.TEX-BI {
+  font-family: MJXZERO, MJXTEX-BI;
+}
+
+.TEX-S1 {
+  font-family: MJXZERO, MJXTEX-S1;
+}
+
+.TEX-S2 {
+  font-family: MJXZERO, MJXTEX-S2;
+}
+
+.TEX-S3 {
+  font-family: MJXZERO, MJXTEX-S3;
+}
+
+.TEX-S4 {
+  font-family: MJXZERO, MJXTEX-S4;
+}
+
+.TEX-A {
+  font-family: MJXZERO, MJXTEX-A;
+}
+
+.TEX-C {
+  font-family: MJXZERO, MJXTEX-C;
+}
+
+.TEX-CB {
+  font-family: MJXZERO, MJXTEX-CB;
+}
+
+.TEX-FR {
+  font-family: MJXZERO, MJXTEX-FR;
+}
+
+.TEX-FRB {
+  font-family: MJXZERO, MJXTEX-FRB;
+}
+
+.TEX-SS {
+  font-family: MJXZERO, MJXTEX-SS;
+}
+
+.TEX-SSB {
+  font-family: MJXZERO, MJXTEX-SSB;
+}
+
+.TEX-SSI {
+  font-family: MJXZERO, MJXTEX-SSI;
+}
+
+.TEX-SC {
+  font-family: MJXZERO, MJXTEX-SC;
+}
+
+.TEX-T {
+  font-family: MJXZERO, MJXTEX-T;
+}
+
+.TEX-V {
+  font-family: MJXZERO, MJXTEX-V;
+}
+
+.TEX-VB {
+  font-family: MJXZERO, MJXTEX-VB;
+}
+
+mjx-stretchy-v mjx-c, mjx-stretchy-h mjx-c {
+  font-family: MJXZERO, MJXTEX-S1, MJXTEX-S4, MJXTEX, MJXTEX-A ! important;
+}
+
+@font-face /* 0 */ {
+  font-family: MJXZERO;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Zero.woff") format("woff");
+}
+
+@font-face /* 1 */ {
+  font-family: MJXTEX;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Regular.woff") format("woff");
+}
+
+@font-face /* 2 */ {
+  font-family: MJXTEX-B;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Bold.woff") format("woff");
+}
+
+@font-face /* 3 */ {
+  font-family: MJXTEX-I;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-Italic.woff") format("woff");
+}
+
+@font-face /* 4 */ {
+  font-family: MJXTEX-MI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Main-Italic.woff") format("woff");
+}
+
+@font-face /* 5 */ {
+  font-family: MJXTEX-BI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Math-BoldItalic.woff") format("woff");
+}
+
+@font-face /* 6 */ {
+  font-family: MJXTEX-S1;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size1-Regular.woff") format("woff");
+}
+
+@font-face /* 7 */ {
+  font-family: MJXTEX-S2;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size2-Regular.woff") format("woff");
+}
+
+@font-face /* 8 */ {
+  font-family: MJXTEX-S3;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size3-Regular.woff") format("woff");
+}
+
+@font-face /* 9 */ {
+  font-family: MJXTEX-S4;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Size4-Regular.woff") format("woff");
+}
+
+@font-face /* 10 */ {
+  font-family: MJXTEX-A;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_AMS-Regular.woff") format("woff");
+}
+
+@font-face /* 11 */ {
+  font-family: MJXTEX-C;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Regular.woff") format("woff");
+}
+
+@font-face /* 12 */ {
+  font-family: MJXTEX-CB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Calligraphic-Bold.woff") format("woff");
+}
+
+@font-face /* 13 */ {
+  font-family: MJXTEX-FR;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Regular.woff") format("woff");
+}
+
+@font-face /* 14 */ {
+  font-family: MJXTEX-FRB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Fraktur-Bold.woff") format("woff");
+}
+
+@font-face /* 15 */ {
+  font-family: MJXTEX-SS;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Regular.woff") format("woff");
+}
+
+@font-face /* 16 */ {
+  font-family: MJXTEX-SSB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Bold.woff") format("woff");
+}
+
+@font-face /* 17 */ {
+  font-family: MJXTEX-SSI;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_SansSerif-Italic.woff") format("woff");
+}
+
+@font-face /* 18 */ {
+  font-family: MJXTEX-SC;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Script-Regular.woff") format("woff");
+}
+
+@font-face /* 19 */ {
+  font-family: MJXTEX-T;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Typewriter-Regular.woff") format("woff");
+}
+
+@font-face /* 20 */ {
+  font-family: MJXTEX-V;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Regular.woff") format("woff");
+}
+
+@font-face /* 21 */ {
+  font-family: MJXTEX-VB;
+  src: url("https://cdn.jsdelivr.net/npm/mathjax@3/es5/output/chtml/fonts/woff-v2/MathJax_Vector-Bold.woff") format("woff");
+}
+</style><i>f(1), f(2), .., f(N)</i></span><b><strong>, base models ought to think of the most parsimonious function </strong></b><span class="math-tex"><i>f</i></span><b><strong>.</strong></b></li></ul></li><li value="2"><span>The main failure mode of such things is </span><i><em>mechanistically</em></i><span> that the AV reads out the shallow tokens of the activation vector, reconstructs what the model "ought to be thinking" (</span><b><strong>cases in which the AV can be sure the model must be thinking XYZ based on context </strong></b><i><b><strong>exactly</strong></b></i><b><strong> counfound with cases where we can be sure the model must be thinking XYZ based on context</strong></b><span>)</span></li><li value="3"><span>We would need problems such that we can be sure the AV cannot predict the underlying sequence, but the model can. Then it must be reconstructing the model's deeper activations. </span><b><strong>That is, the AV must be kept stupid </strong></b></li></ul></li><li value="2"><b><strong>Keeping the AV stupid, shot #1: (</strong></b><a href="https://arxiv.org/abs/2501.17161" rel="noreferrer"><b><strong>SFT memorizes, RL Generalizes</strong></b></a><b><strong>)</strong></b><ul><li value="1"><span>Train the AV on Best-of-N SFT instead of GRPO. The rough intuition is GRPO does intelligence, BoN-SFT does memorization</span><ul><li value="1"><span>AV Intelligence is sketchy; it's the thing that leads to steganography, it's the thing that lets it confabulate what the LLM is thinking from shallow patterns, instead of deeply checking.</span></li><li value="2"><b><strong>AV's translate from activation-neuralese to English, translating is mostly learning many vocabulary-pairs, it's </strong></b><i><b><strong>memorization</strong></b></i><b><strong>.</strong></b><span> </span></li><li value="3"><span>However, it is still an open question how to update the AR fairly with this, I currently don't see a way other than just updating it on every activation (i.e. best-of-N would obviously just update on it's best work), which means the whole thing is not much cheaper computationally.</span></li></ul></li></ul></li><li value="3"><b><strong>Keeping the AV stupid, shot #2: Weak-to-strong AV's</strong></b><ul><li value="1"><b><strong>Base case</strong></b><span>: A weak model is so simple s.t. we can train down the loss fairly well, avoid these failure modes as follows:</span><ul><li value="1"><span>The AV must reconstruct </span><i><em>a very large part</em></i><span> of the activation vector, meaning it must also catch the "deeper parts", i.e. what the model is really thinking</span></li><li value="2"><span>There is some complicating evidence, i.e., while it's a priori plausible that simpler models have simpler to-read-out thoughts, it is not clearly empirically true that NLAs read them out better as well.</span></li></ul></li><li value="2"><b><strong>Induction Case</strong></b><span>: There is a strong model, perhaps from the same training run, which is just an iota smarter, that thinks fairly similarly. We can warm-start it with the weak model's thoughts, and even if RL can just change a few bits, we are fairly likely to extrapolate correctly.</span><ul><li value="1"><span>Unfortunately, the size of the extrapolation trades off against the compute required here. </span></li><li value="2"><span>Regarding the size of the extrapolation one could perform, this experiment shows different NLA explanations perform surprisingly well when implanted across models. One may either take this as evidence that </span><b><strong>there exists a platonic natural language explanation of model thought (which is what we would need)</strong></b><span>, or as evidence that all models haven't moved off their warm-start distribution yet.</span></li></ul></li><li value="3"><span>Shall we be successful, we can recursively train it up again. </span></li></ul></li></ul><p><span>To even make this possible, one would need to train an NLA on a model that is smaller than Qwen3-8B, hope it has decently low loss, then warm-start Qwen3-8B with its implanted NLA thoughts, in the hope that outperforms compute-matched baseline.</span></p><ul><li value="1"><span>However, a hurdle is to even have a base case, i.e., to have a weak model whose thoughts we understand well in the first place. </span></li><li value="2"><span>Furthermore, Qwen2.5-7B is the N=20 undergrad online survey of AI Safety. That is, </span><i><em>anything</em></i><span> can be shown on Qwen3-8B. </span></li></ul><p><span>From</span><a href="https://docs.google.com/document/d/18Tx15KImSJ-ZO_2uvv_hPOVG5yqR0uF_nUWFicJHy2k/edit?tab=t.0#heading=h.xgtzrj5kcoy8" rel="noreferrer"><span> Redwood's Consistency Lens</span></a><span>, the quote goes: </span></p><blockquote><p><span>The structure of LLMs activation are close to the structure of short text. Some evidence for this is how well word2vec embeddings capture human intuitions about words, despite being simply trained at some language compression task.</span></p></blockquote><p><span>That is, it might be sufficient to learn a mapping, in other words, there is a long list of particularities (i.e. directions in vector space are known to be exp in n, with little interference, see Olah). Therefore it ought to be sufficient to have something that is as smart as 'can map abstraction onto human ones, will put it into writing correctly'</span></p><ul><li value="1"><span>This may mean a very small model is enough, and the warm-start is equally questionable, because it injects a lot of intelligence where we don't need it. </span></li><li value="2"><span>Rewriting a Turing Machine to Lambda calculus is constant overhead, so if the 'words' of the two languages are aggregated or combined in different ways (or recursively build up from different principles), I would still expect the translation to be fairly cheap, albeit a sketchy metaphor </span></li></ul><p><a href="https://arxiv.org/pdf/2210.10760" rel="noreferrer"><span>Gao &amp; Schulman and J. Hilton</span></a><span> study reward model overoptimization, in which they compare RL to BoN-SFT. (There are however a number of opposite key desiderata for RLHF when compared to interp-alignment)</span><span class="footnote-reference" data-footnote-reference="" data-footnote-id="jfcws17d8js" data-footnote-index="4" role="doc-noteref" id="fnrefjfcws17d8js"><sup><a href="#fnjfcws17d8js">[4]</a></sup></span></p><ul><li value="1"><b><strong>RL is far less KL-efficient than BoN, meaning it "consumes" more KL, for the same amount of (over)optimization. </strong></b></li></ul><details class="detailsBlock"><summary class="detailsBlockTitle"><p><span>Initial experimental results</span></p></summary><div class="detailsBlockContent"><figure class="image"><img src="/nla/fig2.png" alt="image.png"><figcaption><p><span>This is approximately 1% of the Anthropic RL compute. </span></p></figcaption></figure><p><span>Per Gao et al, BoN only yields </span><span class="math-tex"><i>log(n)</i></span><span> bits for </span><span class="math-tex"><i>n</i></span><span> steps, with our limited compute we seldomly observe a difference from the release version of Qwen2.5-7B. I am currently unsure what to make of this. </span></p><p><span>Best-of-N captured 67% of GRPO's reward gain while drifting an order of magnitude less from the initial policy, i.e. best-of-N keeps things simple, no scary intelligence </span></p></div></details><ol class="footnote-section footnotes" data-footnote-section="" role="doc-endnotes"><li class="footnote-item" data-footnote-item="" data-footnote-id="g5k73027vnd" data-footnote-index="1" role="doc-endnote" id="fng5k73027vnd"><span class="footnote-back-link" data-footnote-back-link="" data-footnote-id="g5k73027vnd"><sup><strong><a href="#fnrefg5k73027vnd">^</a></strong></sup></span><div class="footnote-content" data-footnote-content=""><p><span>Put differently, the aim is to figure out how well NLA's do on a scale of "just more GPUs" to "fundamentally flawed", with "some tweaks here and there" being my hopeful guess.</span></p></div></li><li class="footnote-item" data-footnote-item="" data-footnote-id="ik14dkclsk8" data-footnote-index="2" role="doc-endnote" id="fnik14dkclsk8"><span class="footnote-back-link" data-footnote-back-link="" data-footnote-id="ik14dkclsk8"><sup><strong><a href="#fnrefik14dkclsk8">^</a></strong></sup></span><div class="footnote-content" data-footnote-content=""><p><span>How useful such a state is for alignment of superintelligence is an open question. </span></p></div></li><li class="footnote-item" data-footnote-item="" data-footnote-id="32pmli4j1me" data-footnote-index="3" role="doc-endnote" id="fn32pmli4j1me"><span class="footnote-back-link" data-footnote-back-link="" data-footnote-id="32pmli4j1me"><sup><strong><a href="#fnref32pmli4j1me">^</a></strong></sup></span><div class="footnote-content" data-footnote-content=""><p><span>This is vaguely related to </span><a href="https://manifold.markets/EliezerYudkowsky/by-the-end-of-2026-will-we-have-tra" rel="noreferrer"><span>Yudkowsky's prediction market</span></a><span>, and I'm sure lots of smarter ink has been spilled on similar questions already.</span></p></div></li><li class="footnote-item" data-footnote-item="" data-footnote-id="jfcws17d8js" data-footnote-index="4" role="doc-endnote" id="fnjfcws17d8js"><span class="footnote-back-link" data-footnote-back-link="" data-footnote-id="jfcws17d8js"><sup><strong><a href="#fnrefjfcws17d8js">^</a></strong></sup></span><div class="footnote-content" data-footnote-content=""><p><span>With the term interp-alignment I mean finding a selection force that produces legible human text. For example, the sparsity constraint of SAE, or the reconstruction force (both SAE &amp; NLA's). In my eyes, it represents a promising area of study. </span></p></div></li></ol>
+</div>
+</body>
+</html>
