@@ -89,6 +89,8 @@ blockquote li { margin-bottom: 0.6rem; }
 
 /* hosted draft pages (/nla/) */
 .post img { max-width: 100%; height: auto; }
+.post figure { margin: 1rem 0; max-width: 100%; }
+.post figure img { max-width: 100%; height: auto; }
 .post details {
   border: 1px solid var(--rule);
   padding: 0.5rem 0.9rem;
@@ -104,6 +106,44 @@ blockquote li { margin-bottom: 0.6rem; }
 }
 .post .footnote-back-link { margin-right: 0.4rem; }
 .post .footnote-content { display: inline-block; vertical-align: top; max-width: 90%; }
+
+/* margin sidenotes (draft pages) — inline blocks by default, floated to the
+   right rail on wide screens */
+.sn-ref {
+  font-size: 0.7em;
+  vertical-align: super;
+  line-height: 0;
+  color: var(--muted);
+  padding: 0 0.05em;
+}
+.sidenote {
+  display: block;
+  margin: 0.4rem 0 0.9rem 1.1rem;
+  padding-left: 0.85rem;
+  border-left: 2px solid var(--rule);
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: var(--muted);
+}
+.sidenote .sn-num { margin-right: 0.35rem; }
+.sidenote a { color: inherit; }
+
+@media (min-width: 56rem) {
+  body.wide { max-width: 54rem; }
+  body.wide .home,
+  body.wide h1,
+  body.wide .intro,
+  body.wide .post > * { max-width: 34rem; }
+  body.wide .post .sidenote {
+    float: right;
+    clear: right;
+    width: 15rem;
+    margin: 0.1rem -17rem 0.7rem 0;
+    padding-left: 0;
+    border-left: none;
+    text-align: left;
+  }
+}
 
 /* section divider, from the --- rules in the source notes */
 hr.sep {
