@@ -39,7 +39,6 @@ thing they have to allocate.</p>
 <p>We know humans want stuff like "status / food". There were many basic facts Jane Goodall was able to extract from watching chimps for a while; yet
 something like 'pretraining model drives' mostly remain unknown. I consider the Persona Selection Model a shot in that direction, but I think there still some fruit here. Plausibly this idea is flawed (from a prudent outside view like 1% of ML stuff ever works); but if such a thing could be constructed, we could e.g. see "what do base models output if they think they'll get lots of easy tokens", "when are base models vastly overconfident / underconfident", and try to extract general principles from that.</p>
 <p>I similarly have some ideas on figuring out what the TD-neurons in RLVR do thats <i>unexpected</i>, i.e. what weird thing gives reasoning models dopamine. Xu et al mostly didn't focus on this, as it's a capabilities paper.</p>
-<p>Some literature comes close, but Fable couldn't find something matching this experiment:</p>
 <details open>
 <summary>Prior Literature</summary>
 <ul>
@@ -47,6 +46,7 @@ something like 'pretraining model drives' mostly remain unknown. I consider the 
 <li>Semantic Entropy Probes: Is just a Monte-Carlo estimation of NLL per token; I have an intution this stuff is way easier in aggregation. This was back when hallucination was a big deal; so they use "can the probe predict whether the model is correct", and find, yes, even OOD to a limited extend.</li>
 </ul>
 </details>
+<p>There's a long tail of papers being even less similar that Fable could find, but no one seems to have tried this!</p>
 <p><strong>Hypothesis</strong>: Base models <i>anticipated loss</i> is an internal feature pointing at the loss
 over the next few tokens.<br>
 <strong>Experiment</strong>: Can a probe of a base models activation's at token $k$ predict the
