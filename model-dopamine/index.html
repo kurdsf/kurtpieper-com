@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Model Dopamine &mdash; Kurt Pieper</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Draft: valence, arousal, and anticipated loss as low-level features of LLMs.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/style.css">
+<script>MathJax = {tex: {inlineMath: [['$', '$'], ['\\(', '\\)']]}};</script>
+<script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js"></script>
+</head>
+<body class="wide">
+<p class="home"><a href="/">&larr; Kurt Pieper</a></p>
+<h1>Model Dopamine</h1>
+<p class="intro">A draft, August 2026. Comments welcome, via
+<a href="mailto:kurt.h.pieper@gmail.com">mail</a> or
+<a href="https://www.admonymous.co/kurt-pieper">anonymously</a>.</p>
+<div class="post">
+<p><strong>Valence</strong> (how good one feels) and <strong>Arousal</strong> (how exited / bored one is) are fundamental features
+of any Central Nervous System. Furthermore, they are low-level features: <i>pharmalogical agents</i> modify them
+directly, which are just a few-bit molecules<sup class="sn-ref">1</sup><span class="sidenote"><span class="sn-num">1</span> e.g. Amphetamine; Benzodiazepines; Opioids map onto some intersection</span>.</p>
+<p>This cannot be said about other emotional features such as jealousy or anger (e.g. no small molecule makes you mostly angry); and furthermore, since e.g. jealousy arises from <i>tribal groups</i>, I hold it as an unlikely candidate for an LLM emotion, at best representing features of persona's<sup class="sn-ref">2</sup><span class="sidenote"><span class="sn-num">2</span> See: <a href="https://transformer-circuits.pub/2026/emotions/index.html#full-list">the full list</a>, which contains 'envious' or 'jealous', which are <i>tribal emotions</i></span></p>
+<p><i>Valence</i> exists to take actions that increase genetic fitness: Nematodes swim away from predator smell; and towards food smell. In other
+words, valence tracks intra-lifetime-variance in the organisms <i>expected genetic fitness</i>.</p>
+<p><i>Arousal</i> exists to allocate one's limited resources: Energy is finite, if many actions need to be taken, arousal should be increased and vice versa.
+<i>Arousal</i> may not exist in LLM's (another reason to think they don't represent 'excited' internally) since their
+compute is fixed. Since they still face the problem of limited resources in other ways, I think it's fruitful to think of what might be a <i>broad</i> scarce
+thing they have to allocate.</p>
+<p><i>Valence</i> may exist as a prediction of future success:</p>
+<ul>
+<li>In base models, it would be loss on future tokens</li>
+<li>In reasoning models, it is the anticipated reward from graders.</li>
+</ul>
+<p><i>Dopamine</i>, among other things, is assumed to correlate with TD-error, i.e. temporal difference in valence.</p>
+<p>Finding these differences in <i>RLVR</i> is possible, with 'oops' and 'heureka' being spikes and valleys respectively. Furthermore, this system is highly sparse. cf. <a href="https://arxiv.org/pdf/2602.00986">Xu et al</a></p>
+<p>My main goals are:</p>
+<p>(i) Try to find an analogue in base models. There is a live debate over how much base model properties matter in RL world. My broad intution is that RL adds a bunch of low-bit updates towards <i>g</i>; but akin to many human drives being seen in the chimps of gombe, studying base model drives is arguably still transferable.<sup class="sn-ref">3</sup><span class="sidenote"><span class="sn-num">3</span> For a recent discussion see: <a href="https://x.com/williawa/status/2086309074447282292">this thread</a></span></p>
+<p>We know humans want stuff like "status / food". There were many basic facts Jane Goodall was able to extract from watching chimps for a while; yet
+something like 'pretraining model drives '
+Some literature comes close, but Fable couldn't find something matching this experiment:</p>
+<details open>
+<summary>Prior Literature</summary>
+<ul>
+<li>Future Lens, Pal et al. Predict tokens $i+2, .., i+4$ (not their loss, the token itself); says "sometimes 48%", positive evidence but IMO weird baseline.</li>
+<li>Semantic Entropy Probes: Is just a Monte-Carlo estimation of NLL per token; I have an intution this stuff is way easier in aggregation. This was back when hallucination was a big deal; so they use "can the probe predict whether the model is correct", and find, yes, even OOD to a limited extend.</li>
+</ul>
+</details>
+<p><strong>Hypothesis</strong>: Base models <i>anticipated loss</i> is an internal feature pointing at the loss
+over the next few tokens.<br>
+<strong>Experiment</strong>: Can a probe of a base models activation's at token $k$ predict the
+NLL at unseen tokens $k + 1, \ldots, k + n$.</p>
+<p><strong>Claim</strong>: Representing the losses of the next $n$ tokens internally with $l_{i}^{\textbf{probe}}$ requires compute
+$C = \sum_{i = 1}^{n} L_C^{-1}(l^{\text{probe}}_i)$
+where $L^{-1}$ is the inverse of $L(C) = GC^{-\gamma}$ from the Chinchilla paper.
+This may overestimate compute costs, since its easier to know <i>the loss</i> compared to the
+<i>token producing the loss</i>.</p>
+<p>Result #1: Trained on Pythia, disappointing result ($r = 0.3$, which is just an artifact of close text being correlated), likely just cheaped out on compute too much since this is worse than we would expect from Future Lens.</p>
+</div>
+</body>
+</html>
