@@ -74,20 +74,6 @@ p { margin: 0 0 1rem 0; }
 .entry .src { font-weight: 600; line-height: 1.45; }
 .entry .venue { font-weight: normal; color: var(--muted); font-size: 0.92rem; }
 
-/* unpublished drafts, quietly highlighted at the top of /recommendations */
-.drafts {
-  border: 1px solid var(--rule);
-  padding: 1rem 1.15rem 0.1rem;
-  margin: -1rem 0 2.75rem;
-}
-.drafts-label {
-  font-size: 0.9rem;
-  font-style: italic;
-  color: var(--muted);
-  margin-bottom: 0.9rem;
-}
-.drafts .entry { margin-bottom: 1.2rem; }
-
 ul { padding-left: 1.2rem; margin: 0.5rem 0 1rem; }
 li { margin-bottom: 0.35rem; }
 
